@@ -18,8 +18,8 @@
   <div class="py-2">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
       <div class="flex justify-end py-8">
-        <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'new-deck')">New Deck
-        </x-primary-button>
+        <a href="{{ route('decks.create') }}">New Deck
+        </a>
       </div>
     </div>
   </div>

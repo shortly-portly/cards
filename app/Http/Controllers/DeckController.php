@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Deck;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class DeckController extends Controller
@@ -16,16 +17,19 @@ class DeckController extends Controller
     {
 
         return view('decks.index', [
-            'decks' => Deck::latest()->filter(request(['search']))->get(),
+            'decks' => Deck::latest()
+                ->where('user_id', $request->user()->id)
+                ->filter(request(['search']))
+                ->get(),
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('decks.create');
     }
 
     /**
@@ -33,8 +37,12 @@ class DeckController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => [
+                'required',
+                Rule::unique('decks')->where('user_id', $request->user()->id),
+            ],
         ]);
 
         $request->user()->decks()->create($validated);
@@ -70,7 +78,10 @@ class DeckController extends Controller
         $this->authorize('update', $deck);
 
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => [
+                'required',
+                Rule::unique('decks')->where('user_id', $request->user()->id),
+            ],
         ]);
 
         $deck->update($validated);

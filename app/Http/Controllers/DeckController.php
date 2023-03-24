@@ -53,24 +53,40 @@ class DeckController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Deck $deck)
+    public function edit(Deck $deck): View
     {
-        //
+        $this->authorize('update', $deck);
+
+        return view('decks.edit', [
+            'deck' => $deck,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Deck $deck)
+    public function update(Request $request, Deck $deck): RedirectResponse
     {
-        //
+        $this->authorize('update', $deck);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+        ]);
+
+        $deck->update($validated);
+
+        return redirect(route('decks.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Deck $deck)
+    public function destroy(Deck $deck): RedirectResponse
     {
-        //
+        $this->authorize('delete', $deck);
+
+        $deck->delete();
+
+        return redirect(route('decks.index'));
     }
 }

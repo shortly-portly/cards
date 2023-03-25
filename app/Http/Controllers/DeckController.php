@@ -20,7 +20,7 @@ class DeckController extends Controller
             'decks' => Deck::latest()
                 ->where('user_id', $request->user()->id)
                 ->filter(request(['search']))
-                ->get(),
+                ->paginate(5)->withQueryString(),
         ]);
     }
 

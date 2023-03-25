@@ -47,7 +47,8 @@ class DeckController extends Controller
 
         $request->user()->decks()->create($validated);
 
-        return redirect(route('decks.index'));
+        return redirect(route('decks.index'))
+            ->with('success', 'Deck created');
     }
 
     /**
@@ -86,7 +87,8 @@ class DeckController extends Controller
 
         $deck->update($validated);
 
-        return redirect(route('decks.index'));
+        return redirect(route('decks.index'))
+            ->with('success', 'Deck updated');
     }
 
     /**
@@ -98,6 +100,7 @@ class DeckController extends Controller
 
         $deck->delete();
 
-        return redirect(route('decks.index'));
+        return redirect(route('decks.index'))
+            ->with('success', 'Deck deleted');
     }
 }

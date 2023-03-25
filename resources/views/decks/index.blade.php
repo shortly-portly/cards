@@ -28,6 +28,7 @@
     <x-section :title="$deck->name" :subtitle="$deck->created_at->format('j M Y, g:i a')" :deck="$deck">
     </x-section>
   @endforeach
+  <x-flash></x-flash>
 </x-app-layout>
 
 <x-modal name="new-deck" :show="$errors->userDeletion->isNotEmpty()" focusable>

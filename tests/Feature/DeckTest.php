@@ -6,7 +6,9 @@ use App\Models\User;
 it('can store a Deck', function () {
     login()->post('/decks', [
         'name' => "My First Deck",
-    ])->assertRedirect('/decks');
+    ])
+        ->assertRedirect('/decks')
+        ->assertSessionHas('success', 'Deck created');
 
     $deck = Deck::latest()->first();
 
@@ -60,9 +62,10 @@ it('can update a Deck', function () {
 
     login($user)->put('decks/' . $deck->id, [
         'name' => 'My Updated Post',
-    ])->assertRedirect('/decks');
+    ])->assertRedirect('/decks')->assertSessionHas('success', 'Deck updated');
 
-    expect($deck->refresh()->name)->toBe('My Updated Post');
+    expect($deck->refresh()->name)
+        ->toBe('My Updated Post');
 });
 
 it('cannot update a deck for a different user', function () {
@@ -83,7 +86,9 @@ it('can delete a Deck', function () {
     $user = User::factory()->create();
     $deck = Deck::factory()->for($user)->create();
 
-    login($user)->delete('decks/' . $deck->id)->assertRedirect('/decks');
+    login($user)->delete('decks/' . $deck->id)
+        ->assertRedirect('/decks')
+        ->assertSessionHas('success', 'Deck deleted');;
 });
 
 it('cannot delete a deck for a different user', function () {

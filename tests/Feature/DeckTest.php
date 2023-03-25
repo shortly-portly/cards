@@ -21,6 +21,39 @@ it('must have a name', function () {
     ]);
 });
 
+it('cannot have two decks with the same name for the same user', function () {
+    $user = login();
+
+    $user->post('/decks', [
+        'name' => "My First Deck",
+    ])->assertRedirect('/decks');
+
+    $user->post('/decks', [
+        'name' => "My First Deck",
+    ])->assertSessionHasErrors([
+        'name' => 'The name has already been taken.',
+    ]);
+
+});
+
+it('can have two decks with the same name for different users', function () {
+    login()->post('/decks', [
+        'name' => "My First Deck",
+    ])->assertRedirect('/decks');
+
+    $deck = Deck::latest()->first();
+
+    expect($deck->name)->toBe('My First Deck');
+
+    login()->post('/decks', [
+        'name' => "My First Deck",
+    ])->assertRedirect('/decks');
+
+    $deck = Deck::latest()->first();
+
+    expect($deck->name)->toBe('My First Deck');
+});
+
 it('can update a Deck', function () {
     $user = User::factory()->create();
     $deck = Deck::factory()->for($user)->create();

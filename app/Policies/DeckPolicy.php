@@ -10,9 +10,9 @@ class DeckPolicy
     /**
      * Determine whether the user can view any models.
      */
-    public function viewAny(User $user): bool
+    public function viewAny(User $user, Deck $deck): bool
     {
-        //
+
     }
 
     /**
@@ -26,9 +26,11 @@ class DeckPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(User $user, Deck $deck): bool
     {
-        //
+
+        return $deck->user()->is($user);
+
     }
 
     /**

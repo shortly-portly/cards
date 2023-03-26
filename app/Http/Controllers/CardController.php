@@ -43,6 +43,9 @@ class CardController extends Controller
      */
     public function store(Request $request, Deck $deck): RedirectResponse
     {
+
+        $this->authorize('store', $deck);
+
         $validated = $request->validate([
             'question' => ['required'],
             'answer'   => ['required'],

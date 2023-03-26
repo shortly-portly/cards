@@ -34,6 +34,16 @@ class DeckPolicy
     }
 
     /**
+     * Determine whether the user can store models.
+     */
+    public function store(User $user, Deck $deck): bool
+    {
+
+        return $deck->user()->is($user);
+
+    }
+
+    /**
      * Determine whether the user can update the model.
      */
     public function update(User $user, Deck $deck): bool

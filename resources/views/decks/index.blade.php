@@ -1,4 +1,5 @@
 <x-app-layout>
+  {{ $errors }}
   <x-slot name="header">
     <div class="flex justify-between">
       <div>
@@ -44,6 +45,13 @@
             <x-dropdown-link :href="route('decks.cards.index', $deck)">
               {{ __('Cards') }}
             </x-dropdown-link>
+
+            <form method="POST" action="{{ route('decks.tests.store', $deck) }}">
+              @csrf
+              <x-dropdown-link :href="route('decks.tests.store', $deck)" onclick="event.preventDefault(); this.closest('form').submit();">
+                {{ __('Test') }}
+              </x-dropdown-link>
+            </form>
             <form method="POST" action="{{ route('decks.destroy', $deck) }}">
               @csrf
               @method('delete')

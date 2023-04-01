@@ -53,7 +53,7 @@ test('Can update a card', function () {
 });
 
 test('cannot create a card for a deck you do not own', function () {
-    var_dump('Hello');
+
     $user = User::factory()->create();
     $deck = Deck::factory()->for($user)->create();
     $url  = 'decks/' . $deck->id . '/cards';

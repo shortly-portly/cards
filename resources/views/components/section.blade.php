@@ -1,4 +1,4 @@
-@props(['title', 'subtitle', 'deck'])
+@props(['title', 'subtitle'])
 
 <div class="py-2">
   <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">

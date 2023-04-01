@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Card;
 use App\Models\Deck;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -20,9 +21,13 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('davedave'),
         ]);
 
-        Deck::factory()
-            ->count(30)
+        Deck::factory([
+            'name' => 'Test Deck',
+        ])
             ->for($user)
+            ->has(Card::factory()->count(2)->sequence(
+                ['question' => 'Question 1', 'answer' => 'Answer 1'],
+                ['question' => 'Question 2', 'answer' => 'Answer 2']))
             ->create();
 
     }

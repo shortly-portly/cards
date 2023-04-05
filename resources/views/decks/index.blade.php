@@ -1,5 +1,6 @@
 <x-app-layout>
-  {{ $errors }}
+
+
   <x-slot name="header">
     <div class="flex justify-between">
       <div>
@@ -24,6 +25,20 @@
       </div>
     </div>
   </div>
+
+  @if ($errors->any())
+    <div class="py-2">
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="p-4 sm:p-8 bg-white border border-purple-300  sm:rounded-lg">
+          <ul>
+            @foreach ($errors->all() as $error)
+              <li class="text-red-500">{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      </div>
+    </div>
+  @endif
 
   @foreach ($decks as $deck)
     <x-section :title="$deck->name" :subtitle="$deck->created_at->format('j M Y, g:i a')">

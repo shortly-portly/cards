@@ -61,14 +61,6 @@ class CardController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Card $card)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
     public function edit(Deck $deck, Card $card)

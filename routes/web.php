@@ -3,7 +3,6 @@
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\DeckController;
-use App\Http\Controllers\PlaygroundController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TestController;
@@ -23,8 +22,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/playground', [PlaygroundController::class, 'index']);
 
 Route::get('/dashboard', function () {
     return view('dashboard');

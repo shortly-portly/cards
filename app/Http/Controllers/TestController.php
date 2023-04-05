@@ -30,7 +30,8 @@ class TestController extends Controller
 
         $validated = $request->validate([
             'card_count' => 'integer|min:1',
-
+        ], [
+            'card_count.min' => 'You must add cards to the deck before running a test.',
         ]);
 
         $test = $request->user()->tests()->create($validated);

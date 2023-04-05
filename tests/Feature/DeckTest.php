@@ -3,6 +3,22 @@
 use App\Models\Deck;
 use App\Models\User;
 
+test('can retrieve a list of decks', function () {
+    $user = User::factory()->create();
+    $deck = Deck::factory()->for($user)->create();
+
+    $url = 'decks/';
+    login($user)->get($url)->assertStatus(200)->assertSee($deck->question);
+});
+
+test('can retrieve a form to create a deck', function () {
+    $user = User::factory()->create();
+
+    $url = 'decks/create';
+
+    login($user)->get($url)->assertStatus(200);
+});
+
 it('can store a Deck', function () {
     login()->post('/decks', [
         'name' => "My First Deck",
@@ -54,6 +70,14 @@ it('can have two decks with the same name for different users', function () {
     $deck = Deck::latest()->first();
 
     expect($deck->name)->toBe('My First Deck');
+});
+
+test('Can retrieve a form to edit a deck', function () {
+    $user = User::factory()->create();
+    $deck = Deck::factory()->for($user)->create();
+    $url  = 'decks/' . $deck->id . '/edit';
+
+    login($user)->get($url)->assertStatus(200)->assertSee($deck->name);
 });
 
 it('can update a Deck', function () {

@@ -3,6 +3,23 @@ use App\Models\Card;
 use App\Models\Deck;
 use App\Models\User;
 
+test('can retrieve a list of cards for a deck', function () {
+    $user = User::factory()->create();
+    $deck = Deck::factory()->for($user)->create();
+    $card = Card::factory()->for($deck)->create();
+
+    $url = 'decks/' . $deck->id . '/cards';
+    login($user)->get($url)->assertStatus(200)->assertSee($card->question);
+});
+
+test('can retrieve a form to create a card', function () {
+    $user = User::factory()->create();
+    $deck = Deck::factory()->for($user)->create();
+    $url  = 'decks/' . $deck->id . '/cards/create';
+
+    login($user)->get($url)->assertStatus(200);
+});
+
 test('can store a Card', function () {
 
     $user = User::factory()->create();
@@ -33,6 +50,15 @@ test('Card must have a question and answer', function () {
         'answer'   => 'The answer field is required.',
     ]);
 
+});
+
+test('Can retrieve a form to edit a card', function () {
+    $user = User::factory()->create();
+    $deck = Deck::factory()->for($user)->create();
+    $card = Card::factory()->for($deck)->create();
+    $url  = 'decks/' . $deck->id . '/cards/' . $card->id . '/edit';
+
+    login($user)->get($url)->assertStatus(200);
 });
 
 test('Can update a card', function () {
